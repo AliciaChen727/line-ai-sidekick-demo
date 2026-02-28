@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Maximize2, Minimize2, Settings, Sparkles, History, MoreHorizontal, Bookmark, Edit, FileText } from 'lucide-react';
+import { MessageCircle, X, Maximize2, Minimize2, Sparkles, History, MoreHorizontal, Bookmark, Edit, FileText } from 'lucide-react';
 import ChatContainer from './Chat/ChatContainer';
 import { HistoryDrawer } from './Chat/HistoryDrawer';
 import { useSidekick } from '../hooks/useSidekick';

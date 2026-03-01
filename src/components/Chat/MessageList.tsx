@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Bot, User, ThumbsUp, ThumbsDown, CheckCircle, ArrowRight, TrendingDown, Activity, Settings, Send, Link } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import type { SidekickMessage } from '../../types';
 import { AlertCard } from './AlertCard';
 import { RichMenuStepper } from './RichMenuStepper';
@@ -98,7 +99,21 @@ const MessageBubble = ({ message, onFeedback }: { message: SidekickMessage, onFe
                             className={`px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm ${isUser ? 'bg-line-green text-white rounded-tr-sm' : 'bg-white text-line-dark rounded-tl-sm border border-line-border'
                                 }`}
                         >
-                            {message.text}
+                            {message.text && (
+                                <div className={`markdown-content ${isUser ? 'text-white' : 'text-line-dark'} space-y-4`}>
+                                    <ReactMarkdown
+                                        components={{
+                                            p: ({ node, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
+                                            strong: ({ node, ...props }) => <strong className={`font-bold ${isUser ? 'text-white' : 'text-line-dark'}`} {...props} />,
+                                            ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                                            ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2" {...props} />,
+                                            li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                                        }}
+                                    >
+                                        {message.text}
+                                    </ReactMarkdown>
+                                </div>
+                            )}
 
                             {/* Task Cards Rendering */}
                             {message.taskCards && message.taskCards.length > 0 && (

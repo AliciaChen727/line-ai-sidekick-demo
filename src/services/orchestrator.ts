@@ -355,7 +355,7 @@ export const orchestratorProcess = async (
         finalResponse = {
             ...finalResponse,
             submodel: 'General',
-            text: "我了解您的問題了。身為您的 AI 助理，我目前仍在學習如何處理這個特定的請求。您可以嘗試詢問關於推播成效 (例如：「我的推播成效如何？」) 或功能設定 (例如：「如何建立圖文選單？」)",
+            text: "我了解您的問題了。[最新版系統] 身為您的 AI 助理，我目前仍在學習如何處理這個特定的請求。您可以嘗試詢問關於推播成效 (例如：「我的推播成效如何？」) 或功能設定 (例如：「如何建立圖文選單？」)",
             isThinking: false
         }
     }

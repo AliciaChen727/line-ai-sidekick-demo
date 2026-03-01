@@ -36,7 +36,7 @@ const detectIntent = (text: string): IntentCategory => {
     }
 
     // Advanced Analytics
-    if (lowerText.includes('分析報告') || lowerText.includes('最近成效')) {
+    if (lowerText.includes('分析報告') || text.includes('分析報告') || lowerText.includes('最近成效')) {
         return 'AdvancedAnalytics';
     }
 

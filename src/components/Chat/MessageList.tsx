@@ -63,33 +63,33 @@ const MessageBubble = ({ message, onFeedback }: { message: SidekickMessage, onFe
             animate={{ opacity: 1, y: 0 }}
             className={`flex flex-col gap-2 w-full ${isUser ? 'items-end' : 'items-start'}`}
         >
-            {/* Thinking Process Rendering */}
-            {message.isThinking && message.thinkingProcess && message.thinkingProcess.length > 0 && (
-                <div className="flex items-start gap-2 w-full ml-11 mb-2">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        key={message.thinkingProcess.length + message.id}
-                        className="flex items-center gap-2.5 px-3.5 py-2 bg-slate-50 rounded-full border border-line-border/80 text-[13px] font-medium text-line-dark/70 shadow-sm"
-                    >
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
-                            className="w-3.5 h-3.5 border-2 border-line-green/80 border-t-transparent rounded-full flex-shrink-0"
-                        />
-                        <span className="truncate max-w-[220px] md:max-w-[350px]">
-                            {message.thinkingProcess[message.thinkingProcess.length - 1]}
-                        </span>
-                    </motion.div>
-                </div>
-            )}
-
             <div className={`flex items-start gap-3 w-full ${isUser ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isUser ? 'bg-blue-500' : 'bg-line-green'}`}>
                     {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
                 </div>
 
                 <div className={`flex flex-col gap-1 max-w-[85%] ${isUser ? 'items-end' : 'items-start'}`}>
+                    {/* Thinking Process Rendering (Moved inside content column to align with avatar) */}
+                    {message.isThinking && message.thinkingProcess && message.thinkingProcess.length > 0 && (
+                        <div className="flex items-start gap-2 w-full mb-1">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                key={message.thinkingProcess.length + message.id}
+                                className="flex items-center gap-2.5 px-3.5 py-2 bg-slate-50 rounded-full border border-line-border/80 text-[13px] font-medium text-line-dark/70 shadow-sm"
+                            >
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                                    className="w-3.5 h-3.5 border-2 border-line-green/80 border-t-transparent rounded-full flex-shrink-0"
+                                />
+                                <span className="truncate max-w-[220px] md:max-w-[350px]">
+                                    {message.thinkingProcess[message.thinkingProcess.length - 1]}
+                                </span>
+                            </motion.div>
+                        </div>
+                    )}
+
                     {/* The Message Content */}
                     <div
                         className={`px-4 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm ${isUser ? 'bg-line-green text-white rounded-tr-sm' : 'bg-white text-line-dark rounded-tl-sm border border-line-border'

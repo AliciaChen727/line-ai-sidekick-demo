@@ -60,11 +60,30 @@ export const useSidekick = () => {
         setIsTyping(true);
 
         try {
-            // 2. Dispatch to Orchestrator with Context
-            const currentContext = [...messages, userMsg].slice(-MAX_CONTEXT);
-            const aiResponse = await orchestratorProcess(text, currentContext);
+            // Add a temporary thinking message to hold the state
+            const tempId = `msg-temp-${now}`;
+            const tempMsg: SidekickMessage = {
+                id: tempId,
+                role: 'assistant',
+                text: '',
+                timestamp: now,
+                isThinking: true,
+                thinkingProcess: []
+            };
+            setMessages(prev => [...prev, tempMsg].slice(-MAX_HISTORY));
 
-            setMessages(prev => [...prev, aiResponse].slice(-MAX_HISTORY));
+            // Dispatch to Orchestrator with Context and onUpdate callback
+            const currentContext = [...messages, userMsg].slice(-MAX_CONTEXT);
+            const aiResponse = await orchestratorProcess(text, currentContext, (partialMsg) => {
+                setMessages(prev => prev.map(msg =>
+                    msg.id === tempId ? { ...msg, ...partialMsg } : msg
+                ));
+            });
+
+            // Replace the temporary message with the final response
+            setMessages(prev => prev.map(msg =>
+                msg.id === tempId ? aiResponse : msg
+            ));
         } catch (err) {
             console.error(err);
             setError('An error occurred while processing your request.');

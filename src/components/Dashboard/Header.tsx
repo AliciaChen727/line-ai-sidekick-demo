@@ -23,7 +23,7 @@ const Header = () => {
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-line-gray"><path d="m6 9 6 6 6-6" /></svg>
                         </div>
                         <span className="text-[10px] text-line-gray ml-2">@627oziuc</span>
-                        <span className="text-[10px] bg-slate-100 text-line-gray px-1.5 py-0.5 rounded-full ml-1">輕用量</span>
+                        <span className="text-[10px] bg-slate-100 text-line-gray px-1.5 py-0.5 rounded-full ml-1">高用量</span>
                         <div className="flex items-center gap-1 ml-4 text-[11px] text-line-gray">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                             1

@@ -16,12 +16,14 @@ interface MessageListProps {
 }
 
 const MessageList = ({ messages, isTyping, onFeedback }: MessageListProps) => {
+    const isCurrentlyThinking = messages.some(msg => msg.isThinking);
+
     return (
         <>
             {messages.map((msg) => (
                 <MessageBubble key={msg.id} message={msg} onFeedback={onFeedback} />
             ))}
-            {isTyping && (
+            {isTyping && !isCurrentlyThinking && (
                 <div className="flex items-start gap-3">
                     <div className="w-8 h-8 rounded-full bg-line-green flex items-center justify-center shrink-0">
                         <Bot className="w-4 h-4 text-white" />

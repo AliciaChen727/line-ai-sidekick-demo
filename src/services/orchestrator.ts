@@ -86,7 +86,7 @@ export const orchestratorProcess = async (
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "🔍 正在撈取最新推播數據 (Tool Use: get_broadcast_performance)..."
+                "🔍 正在撈取最新推播數據..."
             ]
         });
 
@@ -98,7 +98,7 @@ export const orchestratorProcess = async (
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "🔍 正在撈取最新推播數據 (Tool Use: get_broadcast_performance)...",
+                "🔍 正在撈取最新推播數據...",
                 "💡 正在比對點擊率 (CTR) 與開封率與同產業均值..."
             ]
         });

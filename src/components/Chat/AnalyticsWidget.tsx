@@ -1,4 +1,4 @@
-import { ArrowUpRight, ArrowDownRight, Download, Send, BarChart2 } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Download, Send, BarChart2, Activity } from 'lucide-react';
 import type { AnalyticsReport } from '../../types';
 
 interface AnalyticsWidgetProps {
@@ -103,6 +103,13 @@ const AnalyticsWidget = ({ report }: AnalyticsWidgetProps) => {
 
             {/* Quick Actions */}
             <div className="flex flex-col bg-slate-50">
+                <button className="flex items-center justify-between w-full px-4 py-3 text-[12px] font-bold text-line-dark hover:bg-slate-100 transition-colors border-b border-line-border group">
+                    <div className="flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-line-green group-hover:scale-110 transition-transform" />
+                        查看詳細分析報告
+                    </div>
+                    <span className="text-line-gray/50 group-hover:text-line-gray transition-colors">→</span>
+                </button>
                 <button className="flex items-center justify-between w-full px-4 py-3 text-[12px] font-bold text-line-dark hover:bg-slate-100 transition-colors border-b border-line-border group">
                     <div className="flex items-center gap-2">
                         <Download className="w-4 h-4 text-line-gray group-hover:text-line-dark transition-colors" />

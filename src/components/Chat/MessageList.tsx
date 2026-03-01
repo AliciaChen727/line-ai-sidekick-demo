@@ -6,6 +6,7 @@ import { AlertCard } from './AlertCard';
 import { RichMenuStepper } from './RichMenuStepper';
 import { SizeConsultantCard } from './SizeConsultantCard';
 import { ProactiveAlertCard } from './ProactiveAlertCard';
+import AnalyticsWidget from './AnalyticsWidget';
 
 interface MessageListProps {
     messages: SidekickMessage[];
@@ -187,6 +188,11 @@ const MessageBubble = ({ message, onFeedback }: { message: SidekickMessage, onFe
                         {/* Phase 9: Proactive Promo Alert */}
                         {message.proactiveAlert && (
                             <ProactiveAlertCard data={message.proactiveAlert} />
+                        )}
+
+                        {/* Analytics Report Rendering */}
+                        {message.analyticsReport && (
+                            <AnalyticsWidget report={message.analyticsReport} />
                         )}
 
                         {/* Action Link Rendering (Legacy) */}

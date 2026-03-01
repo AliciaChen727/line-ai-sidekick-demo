@@ -4,7 +4,7 @@ import { handleNavigation } from './submodels/navigation';
 import { handleSafetyAudit } from './submodels/safetyAudit';
 
 // The "Brain": Intent Recognition Categories
-type IntentCategory = 'Education' | 'FeatureDiscovery' | 'Troubleshooting' | 'QuotaQuery' | 'BasicAnalytics' | 'SafetyCheck' | 'Navigation' | 'AudienceCreation' | 'RichMenuSetup' | 'SizeConsultant' | 'ProactivePromo' | 'Unknown';
+type IntentCategory = 'Education' | 'FeatureDiscovery' | 'Troubleshooting' | 'QuotaQuery' | 'BasicAnalytics' | 'AdvancedAnalytics' | 'SafetyCheck' | 'Navigation' | 'AudienceCreation' | 'RichMenuSetup' | 'SizeConsultant' | 'ProactivePromo' | 'Unknown';
 
 const detectIntent = (text: string): IntentCategory => {
     const lowerText = text.toLowerCase();
@@ -33,6 +33,11 @@ const detectIntent = (text: string): IntentCategory => {
     // Feature Discovery / Onboarding
     if (lowerText.includes('how to start') || lowerText.includes('newbie')) {
         return 'FeatureDiscovery';
+    }
+
+    // Advanced Analytics
+    if (lowerText.includes('分析報告') || lowerText.includes('最近成效')) {
+        return 'AdvancedAnalytics';
     }
 
     // Basic Analytics (Updated for mock services)
@@ -131,6 +136,50 @@ export const orchestratorProcess = async (
                 { id: "1", title: "查看詳細分析報告", icon: "activity", actionUrl: "/analytics/broadcast" },
                 { id: "2", title: "使用 A/B 測試發送下一檔", icon: "send", actionUrl: "/broadcast/create" }
             ],
+            isThinking: false
+        };
+
+    } else if (intent === 'AdvancedAnalytics') {
+        if (onUpdate) onUpdate({
+            thinkingProcess: [
+                ...finalResponse.thinkingProcess!,
+                "Intent: Advanced Analytics Query. Need to fetch multi-dimensional report.",
+                "Action: lineService.getAdvancedAnalytics('last_7_days')"
+            ]
+        });
+
+        // Use dynamic import or existing import for lineService if available.
+        // For simplicity, we can just import lineService at the top or here.
+        const { lineService } = await import('../lib/services/lineService');
+        const report = await lineService.getAdvancedAnalytics('last_7_days');
+
+        if (onUpdate) onUpdate({
+            thinkingProcess: [
+                ...finalResponse.thinkingProcess!,
+                "Intent: Advanced Analytics Query. Need to fetch multi-dimensional report.",
+                "Action: lineService.getAdvancedAnalytics('last_7_days')",
+                "Observation: Data retrieved successfully. Calculating weekly differences...",
+                "Synthesizing insights and building recommendation..."
+            ]
+        });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Data Synthesis
+        const currentOpenRate = report.weeklyComparison.current_week.open_rate;
+        const prevOpenRate = report.weeklyComparison.previous_week.open_rate;
+        const openRateDiff = ((currentOpenRate - prevOpenRate) * 100).toFixed(0);
+        const openRateText = Number(openRateDiff) > 0 ? `上升 ${openRateDiff}%` : `下降 ${Math.abs(Number(openRateDiff))}%`;
+
+        // Insight Generation
+        const topChannel = report.channels.reduce((prev, current) => (prev.percentage > current.percentage) ? prev : current);
+        const topDemographicInfo = report.demographics.ageGroups.reduce((prev, current) => (prev.percentage > current.percentage) ? prev : current);
+        const topContent = report.topContent.reduce((prev, current) => (prev.ctr > current.ctr) ? prev : current);
+
+        finalResponse = {
+            ...finalResponse,
+            submodel: 'Diagnostic',
+            text: `為您整理了過去 7 天的分析報告與洞察：\n\n**成效概況**\n相較於上週，本週整體開封率**${openRateText}**。這是一個不錯的成長幅度！\n\n**用戶輪廓與管道分析**\n目前您有 ${(topChannel.percentage * 100).toFixed(0)}% 的好友來自**${topChannel.source}**。而在主力客群方面，**${topDemographicInfo.range}歲女性**的互動最為活躍。\n\n**最強貼文表現**\n本週表現最好的內容為「${topContent.title}」，點擊率高達 ${(topContent.ctr * 100).toFixed(0)}%。\n\n**💡 Sidekick 建議**\n建議可以針對「${topDemographicInfo.range}歲女性」客群，投放更多類似「${topContent.title}」或相關主題的優惠活動，以延續此刻的高參與度！`,
+            analyticsReport: report, // Appends the raw mock data for UI rendering
             isThinking: false
         };
 

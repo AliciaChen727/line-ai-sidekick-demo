@@ -60,6 +60,7 @@ export interface SidekickMessage {
         suggestionText: string;
         actionUrl: string;
     };
+    analyticsReport?: AnalyticsReport;
 }
 
 export interface ActionableSuggestion {
@@ -90,4 +91,47 @@ export interface ChatAction {
     type: 'deeplink' | 'scroll';
     target: string;
     label: string;
+}
+
+// -------------------------
+// Analytics Types
+// -------------------------
+
+export type AnalyticsTimeRange = 'last_7_days' | 'last_30_days';
+
+export interface DemographicData {
+    gender: { male: number; female: number; unknown: number };
+    ageGroups: { range: string; percentage: number }[];
+    locations: { city: string; percentage: number }[];
+}
+
+export interface ChannelData {
+    source: string;
+    percentage: number;
+    count: number;
+}
+
+export interface ContentPerformance {
+    id: string;
+    title: string;
+    ctr: number;
+}
+
+export interface WeeklyComparison {
+    current_week: {
+        total_friends: number;
+        open_rate: number;
+    };
+    previous_week: {
+        total_friends: number;
+        open_rate: number;
+    };
+}
+
+export interface AnalyticsReport {
+    timeRange: AnalyticsTimeRange;
+    weeklyComparison: WeeklyComparison;
+    demographics: DemographicData;
+    channels: ChannelData[];
+    topContent: ContentPerformance[];
 }

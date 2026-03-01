@@ -35,13 +35,13 @@ const detectIntent = (text: string): IntentCategory => {
         return 'FeatureDiscovery';
     }
 
-    // Advanced Analytics
-    if (lowerText.includes('分析報告') || text.includes('分析報告') || lowerText.includes('最近成效')) {
+    // Advanced Analytics (Regex approach for robustness)
+    if (/(分析報告|最近成效|分析|成效報告)/i.test(lowerText) || /(分析報告|最近成效|分析|成效報告)/.test(text)) {
         return 'AdvancedAnalytics';
     }
 
     // Basic Analytics (Updated for mock services)
-    if (lowerText.includes('ctr') || lowerText.includes('open rate') || lowerText.includes('drop') || lowerText.includes('成效')) {
+    if (/(ctr|open rate|drop|成效)/i.test(lowerText)) {
         return 'BasicAnalytics';
     }
 

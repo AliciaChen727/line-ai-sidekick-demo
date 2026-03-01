@@ -65,21 +65,22 @@ const MessageBubble = ({ message, onFeedback }: { message: SidekickMessage, onFe
         >
             {/* Thinking Process Rendering */}
             {message.isThinking && message.thinkingProcess && message.thinkingProcess.length > 0 && (
-                <div className="flex items-start gap-3 w-full ml-11 mb-2">
-                    <div className="flex flex-col gap-3 bg-[#F8F9FA] border border-line-border p-4 rounded-2xl w-[85%]">
-                        <div className="flex items-center gap-2">
-                            <CheckCircle className="w-[18px] h-[18px] text-line-green" strokeWidth={2} />
-                            <span className="text-[12px] font-bold text-[#8A8A8A] uppercase tracking-wider">SIDEKICK REASONING LOGS</span>
-                        </div>
+                <div className="flex items-start gap-2 w-full ml-11 mb-2">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        key={message.thinkingProcess.length + message.id}
+                        className="flex items-center gap-2.5 px-3.5 py-2 bg-slate-50 rounded-full border border-line-border/80 text-[13px] font-medium text-line-dark/70 shadow-sm"
+                    >
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            key={message.thinkingProcess.length}
-                            className="text-[13px] font-mono text-[#5C6B80] bg-white px-3.5 py-2.5 rounded-lg border border-line-border"
-                        >
+                            animate={{ rotate: 360 }}
+                            transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                            className="w-3.5 h-3.5 border-2 border-line-green/80 border-t-transparent rounded-full flex-shrink-0"
+                        />
+                        <span className="truncate max-w-[220px] md:max-w-[350px]">
                             {message.thinkingProcess[message.thinkingProcess.length - 1]}
-                        </motion.div>
-                    </div>
+                        </span>
+                    </motion.div>
                 </div>
             )}
 

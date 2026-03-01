@@ -71,14 +71,14 @@ export const orchestratorProcess = async (
 
     // --- REASONING LOOP START ---
 
-    if (onUpdate) onUpdate({ isThinking: true, thinkingProcess: ["Analyzing user intent and required data..."] });
+    if (onUpdate) onUpdate({ isThinking: true, thinkingProcess: ["🧠 正在解析對話意圖與歷史上下文..."] });
     await new Promise(resolve => setTimeout(resolve, 800));
 
     let finalResponse: Partial<SidekickMessage> = {
         role: 'assistant',
         timestamp: Date.now(),
         showFeedback: true,
-        thinkingProcess: ["Analyzing user intent and required data..."]
+        thinkingProcess: ["🧠 正在解析對話意圖與歷史上下文..."]
     };
 
     if (intent === 'BasicAnalytics') {
@@ -86,24 +86,20 @@ export const orchestratorProcess = async (
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "Intent: Analytics Query. Need to fetch broadcast performance.",
-                "Action: get_broadcast_performance()"
+                "🔍 正在撈取最新推播數據 (Tool Use: get_broadcast_performance)..."
             ]
         });
 
         // Execute Tool
         const { executeTool } = await import('../lib/ai/tools');
         const stats: any = await executeTool("get_broadcast_performance");
-        const obsString = `Observation: Campaign "${stats.name}" CTR is ${stats.ctr * 100}%, Open Rate is ${stats.open_rate * 100}%. Status: ${stats.status}`;
 
         // Step 2: Observation
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "Intent: Analytics Query. Need to fetch broadcast performance.",
-                "Action: get_broadcast_performance()",
-                obsString,
-                "Generating insights based on data..."
+                "🔍 正在撈取最新推播數據 (Tool Use: get_broadcast_performance)...",
+                "💡 正在比對點擊率 (CTR) 與開封率與同產業均值..."
             ]
         });
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -143,8 +139,7 @@ export const orchestratorProcess = async (
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "Intent: Advanced Analytics Query. Need to fetch multi-dimensional report.",
-                "Action: lineService.getAdvancedAnalytics('last_7_days')"
+                "🔍 我需要查過去 7 天的點擊與開封交叉數據..."
             ]
         });
 
@@ -156,13 +151,21 @@ export const orchestratorProcess = async (
         if (onUpdate) onUpdate({
             thinkingProcess: [
                 ...finalResponse.thinkingProcess!,
-                "Intent: Advanced Analytics Query. Need to fetch multi-dimensional report.",
-                "Action: lineService.getAdvancedAnalytics('last_7_days')",
-                "Observation: Data retrieved successfully. Calculating weekly differences...",
-                "Synthesizing insights and building recommendation..."
+                "🔍 我需要查過去 7 天的點擊與開封交叉數據...",
+                "💡 我需要比對用戶輪廓特徵與轉換來源..."
             ]
         });
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        if (onUpdate) onUpdate({
+            thinkingProcess: [
+                ...finalResponse.thinkingProcess!,
+                "🔍 我需要查過去 7 天的點擊與開封交叉數據...",
+                "💡 我需要比對用戶輪廓特徵與轉換來源...",
+                "⚙️ 正在彙整以上觀察以產生行銷建議..."
+            ]
+        });
+        await new Promise(resolve => setTimeout(resolve, 800));
 
         // Data Synthesis
         const currentOpenRate = report.weeklyComparison.current_week.open_rate;
@@ -178,7 +181,7 @@ export const orchestratorProcess = async (
         finalResponse = {
             ...finalResponse,
             submodel: 'Diagnostic',
-            text: `為您整理了過去 7 天的分析報告與洞察：\n\n**成效概況**\n相較於上週，本週整體開封率**${openRateText}**。這是一個不錯的成長幅度！\n\n**用戶輪廓與管道分析**\n目前您有 ${(topChannel.percentage * 100).toFixed(0)}% 的好友來自**${topChannel.source}**。而在主力客群方面，**${topDemographicInfo.range}歲女性**的互動最為活躍。\n\n**最強貼文表現**\n本週表現最好的內容為「${topContent.title}」，點擊率高達 ${(topContent.ctr * 100).toFixed(0)}%。\n\n**💡 Sidekick 建議**\n建議可以針對「${topDemographicInfo.range}歲女性」客群，投放更多類似「${topContent.title}」或相關主題的優惠活動，以延續此刻的高參與度！`,
+            text: `👉 **根據我的分析，我發現了三個關鍵因素：**\n\n**1. 成效概況**\n相較於上週，本週整體開封率**${openRateText}**。這是一個不錯的成長幅度！\n\n**2. 用戶輪廓與管道分析**\n目前您有 ${(topChannel.percentage * 100).toFixed(0)}% 的好友來自**${topChannel.source}**。而在主力客群方面，**${topDemographicInfo.range}歲女性**的互動最為活躍。\n\n**3. 最強貼文表現**\n本週表現最好的內容為「${topContent.title}」，點擊率高達 ${(topContent.ctr * 100).toFixed(0)}%。\n\n**💡 Sidekick 建議**\n建議可以針對「${topDemographicInfo.range}歲女性」客群，投放更多類似「${topContent.title}」或相關主題的優惠活動，以延續此刻的高參與度！`,
             analyticsReport: report, // Appends the raw mock data for UI rendering
             isThinking: false
         };

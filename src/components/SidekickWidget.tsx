@@ -30,6 +30,28 @@ const SidekickWidget = () => {
 
     return (
         <>
+            {/* Global Live Demo Trigger */}
+            <AnimatePresence>
+                {!isOpen && (
+                    <motion.button
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        onClick={() => {
+                            setIsOpen(true);
+                            setShowOnboarding(false);
+                            setTimeout(() => {
+                                sidekick.triggerAlertCard();
+                            }, 400);
+                        }}
+                        className="fixed top-[120px] right-6 z-40 bg-[#EF4444] text-white text-[13px] font-bold px-4 py-2.5 rounded-full shadow-md hover:bg-[#DC2626] transition-colors flex items-center gap-2"
+                        title="Simulate incoming quota alert"
+                    >
+                        <span className="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                        Live Demo
+                    </motion.button>
+                )}
+            </AnimatePresence>
             <AnimatePresence>
                 {/* Floating Action Button */}
                 {!isOpen && (

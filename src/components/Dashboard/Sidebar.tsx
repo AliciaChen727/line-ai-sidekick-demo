@@ -98,7 +98,7 @@ const Sidebar = () => {
                     <ChevronDown className="w-4 h-4 text-line-gray" />
                 </button>
                 <div className="flex flex-col pl-11 pr-4 py-1 gap-0.5">
-                    <button className="text-left py-1.5 text-[13px] text-line-green font-semibold transition-colors">受眾</button>
+                    <button className="text-left py-1.5 text-[13px] text-line-dark hover:text-line-green focus:text-line-green focus:font-semibold transition-colors">受眾</button>
                     <button className="text-left py-1.5 text-[13px] text-line-dark hover:text-line-green transition-colors">追蹤（LINE Tag）</button>
                 </div>
 

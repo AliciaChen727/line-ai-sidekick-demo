@@ -36,12 +36,12 @@ const detectIntent = (text: string): IntentCategory => {
     }
 
     // Advanced Analytics (Regex approach for robustness)
-    if (/(分析報告|最近成效|分析|成效報告)/i.test(lowerText) || /(分析報告|最近成效|分析|成效報告)/.test(text)) {
+    if (/(分析|成效|報表|數據)/i.test(lowerText)) {
         return 'AdvancedAnalytics';
     }
 
     // Basic Analytics (Updated for mock services)
-    if (/(ctr|open rate|drop|成效)/i.test(lowerText)) {
+    if (/(ctr|open rate|drop)/i.test(lowerText)) {
         return 'BasicAnalytics';
     }
 
